@@ -96,7 +96,7 @@ public class SecurityConfig {
                         // Authenticated (USER or ADMIN) — JWT required
                         .requestMatchers("/api/enrollments/**").authenticated()
                         .requestMatchers("/api/payment/**").authenticated()
-
+                        .requestMatchers("/api/seed").permitAll()
                         // Catch-all
                         .anyRequest().authenticated()
                 )
