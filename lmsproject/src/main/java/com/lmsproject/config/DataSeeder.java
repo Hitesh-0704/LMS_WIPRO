@@ -9,23 +9,29 @@ import com.lmsproject.repository.StudentRepository;
 import com.lmsproject.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 @Component
+@Order(1)
 @RequiredArgsConstructor
 public class DataSeeder implements CommandLineRunner {
 
     private final UserRepository    userRepository;
     private final CourseRepository  courseRepository;
-    private final StudentRepository studentRepository; // ✅ Cleanly injected reference field
+    private final StudentRepository studentRepository;
     private final PasswordEncoder   passwordEncoder;
 
     @Override
     public void run(String... args) {
-        seedUser("admin",              "admin123",  Role.ADMIN);
-        seedUser("user@learnhub.com",  "user123",   Role.USER);
-        seedCourses();
+        try {
+            seedUser("admin", "admin123", Role.ADMIN);
+            seedUser("user@learnhub.com", "user123", Role.USER);
+            seedCourses();
+        } catch (Exception e) {
+            System.out.println("DataSeeder skipped: " + e.getMessage());
+        }
     }
 
     private void seedUser(String username, String rawPassword, Role role) {
@@ -36,12 +42,11 @@ public class DataSeeder implements CommandLineRunner {
             u.setRole(role);
             User savedUser = userRepository.save(u);
 
-            // Dynamically seeds the parallel student identity row to support React queries
             if (role == Role.USER) {
                 Student s = new Student();
                 s.setName("Mugdha");
                 s.setEmail(username);
-                s.setUser(savedUser); // Links student row database entity directly to user_id
+                s.setUser(savedUser);
                 studentRepository.save(s);
             }
         }
