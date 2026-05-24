@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Course — LMS</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<nav class="navbar">
+    <span class="brand">LMS <span>Platform</span></span>
+    <div class="nav-links">
+        <a th:href="@{/admin/dashboard}">Dashboard</a>
+        <a th:href="@{/admin/students}">Students</a>
+        <a th:href="@{/admin/courses}">Courses</a>
+        <a th:href="@{/admin/users}">Users</a>
+        <form th:action="@{/logout}" method="post">
+            <button class="logout-btn" type="submit">Logout</button>
+        </form>
+    </div>
+</nav>
+
+<div class="page">
+
+    <div class="page-title">Edit Course</div>
+    <div class="page-subtitle">Update course details.</div>
+
+    <div class="box">
+        <div class="box-title">Edit course</div>
+        <form th:action="@{'/admin/courses/edit/' + ${course.id}}" th:object="${course}" method="post">
+            <div class="form-inline">
+
+                <div class="field">
+                    <label>Title</label>
+                    <input type="text" th:field="*{title}" required>
+                </div>
+
+                <div class="field">
+                    <label>Description</label>
+                    <input type="text" th:field="*{description}">
+                </div>
+
+                <div class="field">
+                    <label>Duration</label>
+                    <input type="text" th:field="*{duration}" placeholder="e.g. 3 Months">
+                </div>
+
+                <div class="field">
+                    <label>YouTube ID</label>
+                    <input type="text" th:field="*{youtubeId}">
+                </div>
+
+                <div class="field">
+                    <label>Category</label>
+                    <select th:field="*{category}">
+                        <option value="">Select...</option>
+                        <option value="Tech">Tech</option>
+                        <option value="Design">Design</option>
+                        <option value="Marketing">Marketing</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn btn-success">Save changes</button>
+                <a th:href="@{/admin/courses}" class="btn btn-outline">Cancel</a>
+
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>

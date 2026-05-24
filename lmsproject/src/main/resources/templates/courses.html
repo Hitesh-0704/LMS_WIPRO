@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Courses — LMS</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<nav class="navbar">
+  <span class="brand">LMS <span>Platform</span></span>
+  <div class="nav-links">
+    <a th:href="@{/admin/dashboard}">Dashboard</a>
+    <a th:href="@{/admin/students}">Students</a>
+    <a th:href="@{/admin/courses}">Courses</a>
+    <a th:href="@{/admin/users}">Users</a>
+    <a th:href="@{/admin/messages}">Messages</a>
+    <form th:action="@{/logout}" method="post">
+      <button class="logout-btn" type="submit">Logout</button>
+    </form>
+  </div>
+</nav>
+
+<div class="page">
+
+  <div class="page-title">Courses</div>
+  <div class="page-subtitle">Add, edit or remove courses.</div>
+
+  <div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}"></div>
+
+  <!-- Add form -->
+  <div class="box">
+    <div class="box-title">Add new course</div>
+    <form th:action="@{/admin/courses/add}" th:object="${newCourse}" method="post">
+      <div class="form-inline">
+
+        <div class="field">
+          <label>Title</label>
+          <input type="text" th:field="*{title}" placeholder="e.g. Java Basics">
+        </div>
+
+        <div class="field">
+          <label>Description <span style="font-weight:400;">(optional)</span></label>
+          <input type="text" th:field="*{description}" placeholder="Short description">
+        </div>
+
+        <div class="field">
+          <label>Duration</label>
+          <input type="text" th:field="*{duration}" placeholder="e.g. 3 Months">
+        </div>
+
+        <div class="field">
+          <label>YouTube ID</label>
+          <input type="text" th:field="*{youtubeId}" placeholder="e.g. U9-GFVi4Uo4">
+        </div>
+
+        <div class="field">
+          <label>Category</label>
+          <input type="text" th:field="*{category}" list="categoryList"
+                 placeholder="e.g. Tech, Design, Marketing...">
+          <datalist id="categoryList">
+            <option value="Tech"/>
+            <option value="Design"/>
+            <option value="Marketing"/>
+            <option value="Business"/>
+            <option value="Finance"/>
+            <option value="Health"/>
+            <option value="Music"/>
+            <option value="Photography"/>
+          </datalist>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Add course</button>
+      </div>
+    </form>
+  </div>
+
+  <!-- List -->
+  <div class="box">
+    <div class="box-title">All courses</div>
+
+    <div th:if="${#lists.isEmpty(courses)}" class="empty">
+      No courses yet. Add one above.
+    </div>
+
+    <div class="table-wrap" th:unless="${#lists.isEmpty(courses)}">
+      <table>
+        <thead>
+        <tr>
+          <th>ID</th>
+          <th>Title</th>
+          <th>Description</th>
+          <th>Duration</th>
+          <th>Category</th>
+          <th>Students</th>
+          <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="c : ${courses}">
+          <td style="color:var(--muted); width:50px;" th:text="${c.id}"></td>
+          <td th:text="${c.title}"></td>
+          <td style="color:var(--muted);" th:text="${c.description != null ? c.description : '—'}"></td>
+          <td th:text="${c.duration != null ? c.duration : '—'}"></td>
+          <td th:text="${c.category != null ? c.category : '—'}"></td>
+          <td th:text="${c.students.size()}"></td>
+          <td class="td-actions">
+            <a th:href="@{'/admin/courses/edit/' + ${c.id}}" class="btn btn-sm btn-edit">Edit</a>
+            <a th:href="@{'/admin/courses/delete/' + ${c.id}}" class="btn btn-sm btn-danger"
+               onclick="return confirm('Delete this course?')">Delete</a>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+</body>
+</html>

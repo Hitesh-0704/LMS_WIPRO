@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Error — LMS</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<nav class="navbar">
+  <span class="brand">LMS <span>Platform</span></span>
+  <div class="nav-links">
+    <a th:href="@{/admin/dashboard}">Dashboard</a>
+  </div>
+</nav>
+
+<div class="page center-page">
+  <div class="center-box">
+    <div class="icon">⚠️</div>
+    <h2 th:text="${errorTitle} ?: 'Something went wrong'"></h2>
+    <p  th:text="${error}      ?: 'An unexpected error occurred.'"></p>
+    <a th:href="@{/admin/dashboard}" class="btn btn-primary">Go back</a>
+  </div>
+</div>
+
+</body>
+</html>

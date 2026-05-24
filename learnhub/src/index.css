@@ -1,0 +1,13 @@
+@import "tailwindcss";
+
+/* stylelint-disable */
+@custom-variant dark (&:where(.dark, .dark *));
+/* stylelint-enable */
+
+.line-clamp-4 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
+  line-clamp: 4;
+}

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Dashboard — LMS</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<nav class="navbar">
+  <span class="brand">LMS <span>Platform</span></span>
+  <div class="nav-links">
+    <a th:href="@{/admin/dashboard}">Dashboard</a>
+    <a th:href="@{/admin/students}">Students</a>
+    <a th:href="@{/admin/courses}">Courses</a>
+    <a th:href="@{/admin/users}">Users</a>
+    <a th:href="@{/admin/messages}">Messages</a>
+    <form th:action="@{/logout}" method="post">
+      <button class="logout-btn" type="submit">Logout</button>
+    </form>
+  </div>
+</nav>
+
+<div class="page">
+
+  <div class="page-title">Dashboard</div>
+  <div class="page-subtitle">
+    Welcome back, <strong sec:authentication="name">Admin</strong>.
+  </div>
+
+  <div class="stats">
+    <div class="stat">
+      <div class="stat-number" th:text="${studentCount}">0</div>
+      <div class="stat-label">Total students</div>
+    </div>
+    <div class="stat">
+      <div class="stat-number" th:text="${courseCount}">0</div>
+      <div class="stat-label">Total courses</div>
+    </div>
+    <div class="stat">
+      <div class="stat-number" th:text="${userCount}">0</div>
+      <div class="stat-label">System users</div>
+    </div>
+    <div class="stat">
+      <div class="stat-number" th:text="${messageCount}">0</div>
+      <div class="stat-label">Unread messages</div>
+    </div>
+    <div class="stat">
+      <div class="stat-number" th:text="${completedCourses}">0</div>
+      <div class="stat-label">Completed Enrollments</div>
+    </div>
+  </div>
+
+  <div class="box">
+    <div class="box-title">Quick actions</div>
+    <div class="actions-row">
+      <a th:href="@{/admin/students}" class="btn btn-outline">Manage students</a>
+      <a th:href="@{/admin/courses}"  class="btn btn-outline">Manage courses</a>
+      <a th:href="@{/admin/users}"    class="btn btn-outline">Manage users</a>
+      <a th:href="@{/admin/messages}" class="btn btn-outline">View messages</a>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

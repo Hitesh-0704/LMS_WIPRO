@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Users — LMS</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<nav class="navbar">
+  <span class="brand">LMS <span>Platform</span></span>
+  <div class="nav-links">
+    <a th:href="@{/admin/dashboard}">Dashboard</a>
+    <a th:href="@{/admin/students}">Students</a>
+    <a th:href="@{/admin/courses}">Courses</a>
+    <a th:href="@{/admin/users}">Users</a>
+    <a th:href="@{/admin/messages}">Messages</a>
+    <form th:action="@{/logout}" method="post">
+      <button class="logout-btn" type="submit">Logout</button>
+    </form>
+  </div>
+</nav>
+
+<div class="page">
+
+  <div class="page-title">System users</div>
+  <div class="page-subtitle">All registered users and their roles.</div>
+
+  <div class="box">
+    <div class="box-title">User list</div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+        <tr>
+          <th>ID</th>
+          <th>Username</th>
+          <th>Role</th>
+          <th>Created</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="u : ${users}">
+          <td style="color:var(--muted); width:50px;" th:text="${u.id}"></td>
+          <td th:text="${u.username}"></td>
+          <td>
+              <span class="tag"
+                    th:classappend="${u.role.name() == 'ADMIN'} ? 'tag-red' : 'tag-blue'"
+                    th:text="${u.role}"></span>
+          </td>
+          <td style="color:var(--muted); font-size:13px;"
+              th:text="${#temporals.format(u.createdAt, 'dd MMM yyyy')}"></td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

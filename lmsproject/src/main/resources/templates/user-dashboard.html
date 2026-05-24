@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>My Dashboard — LMS</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<nav class="navbar">
+  <span class="brand">LMS <span>Platform</span></span>
+  <div class="nav-links">
+    <form th:action="@{/logout}" method="post">
+      <button class="logout-btn" type="submit">Logout</button>
+    </form>
+  </div>
+</nav>
+
+<div class="page">
+
+  <!-- ── Student with a profile ─────────────────────────────────────────── -->
+  <div th:if="${student != null}">
+
+    <div class="page-title">
+      Hello, <span th:text="${student.name}">Student</span>!
+    </div>
+    <div class="page-subtitle">Here are the courses you are enrolled in.</div>
+
+    <div class="box">
+      <div class="box-title">My enrolled courses</div>
+
+      <div th:if="${#sets.isEmpty(enrolledCourses)}" class="empty">
+        You are not enrolled in any courses yet.
+        Contact an admin to get assigned to a course.
+      </div>
+
+      <div class="table-wrap" th:unless="${#sets.isEmpty(enrolledCourses)}">
+        <table>
+          <thead>
+          <tr>
+            <th>#</th>
+            <th>Course title</th>
+            <th>Description</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr th:each="c, i : ${enrolledCourses}">
+            <td style="color:var(--muted); width:44px;"
+                th:text="${i.count}"></td>
+            <td th:text="${c.title}"></td>
+            <td style="color:var(--muted);"
+                th:text="${c.description != null ? c.description : '—'}"></td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ── Fallback: seeded "user" account with no student profile ────────── -->
+  <div th:if="${student == null}">
+
+    <div class="page-title">
+      Hello, <span sec:authentication="name">User</span>!
+    </div>
+    <div class="page-subtitle">Browse the courses available on the platform.</div>
+
+    <div class="box">
+      <div class="box-title">Available courses</div>
+
+      <div th:if="${#lists.isEmpty(courses)}" class="empty">
+        No courses have been added yet.
+      </div>
+
+      <div class="table-wrap" th:unless="${#lists.isEmpty(courses)}">
+        <table>
+          <thead>
+          <tr>
+            <th>#</th>
+            <th>Title</th>
+            <th>Description</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr th:each="c, i : ${courses}">
+            <td style="color:var(--muted); width:44px;"
+                th:text="${i.count}"></td>
+            <td th:text="${c.title}"></td>
+            <td style="color:var(--muted);"
+                th:text="${c.description != null ? c.description : '—'}"></td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+</body>
+</html>

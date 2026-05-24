@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Login — LMS</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<div class="login-page">
+  <div class="login-box">
+
+    <h1>LMS <span style="color:var(--accent);">Platform</span></h1>
+    <p class="subtitle">Sign in to continue</p>
+
+    <div th:if="${param.error}" class="alert alert-error">
+      Wrong username or password.
+    </div>
+    <div th:if="${param.logout}" class="alert alert-success">
+      You have been logged out.
+    </div>
+    <div th:if="${param.registered}" class="alert alert-success">
+      Registration successful! Please sign in.
+    </div>
+
+    <form th:action="@{/login}" method="post">
+
+      <div class="field">
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username"
+               placeholder="Enter username or email" autofocus required>
+      </div>
+
+      <div class="field">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password"
+               placeholder="Enter password" required>
+      </div>
+
+      <button type="submit" class="btn btn-primary">Sign in</button>
+
+    </form>
+
+    <!-- ← NEW: registration link -->
+    <p style="text-align:center; margin-top:16px; font-size:14px; color:var(--muted);">
+      New student? <a th:href="@{/register}">Create an account</a>
+    </p>
+
+    <div class="login-hint">
+      admin / admin123 &nbsp;|&nbsp; user / user123
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>
